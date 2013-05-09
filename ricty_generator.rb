@@ -8,7 +8,7 @@ class RictyGenerator < Formula
   url 'https://github.com/yascentur/Ricty/archive/3.2.1.tar.gz'
   sha1 '5a5aaa69949544eb8522ee1fa3d2862ce6a4a5e4'
 
-  depends_on :fontforge
+  depends_on 'fontforge'
 
   def install
     bin.install('ricty_generator.sh')
