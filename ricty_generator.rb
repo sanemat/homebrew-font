@@ -12,12 +12,7 @@ class RictyGenerator < Formula
   depends_on :x11 # if your formula requires any X11/XQuartz components
 
   def install
-    # ENV.j1  # if your formula's build system can't parallelize
-
-    system "./configure", "--disable-debug", "--disable-dependency-tracking",
-                          "--prefix=#{prefix}"
-    # system "cmake", ".", *std_cmake_args
-    system "make", "install" # if this fails, try separate make/make install steps
+    bin.install('ricty_generator.sh')
   end
 
   test do
