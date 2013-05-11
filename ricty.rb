@@ -4,14 +4,14 @@ class InconsolataFonts < Formula
   homepage 'http://levien.com/type/myfonts/inconsolata.html'
   url 'http://levien.com/type/myfonts/Inconsolata.otf'
   sha1 '7f0a4919d91edcef0af9dc153054ec49d1ab3072'
-  version '3.2.1'
+  version '1.0.0'
 end
 
 class Migu1MFonts < Formula
   homepage 'http://mix-mplus-ipa.sourceforge.jp/'
   url 'http://sourceforge.jp/frs/redir.php?m=jaist&f=%2Fmix-mplus-ipa%2F58720%2Fmigu-1m-20130430.zip'
   sha1 '5fb8634d4f67df3889e98c1491e9d6b335bc95c7'
-  version '3.2.1'
+  version '20130430'
 end
 
 class Ricty < Formula
