@@ -23,7 +23,7 @@ class Ricty < Formula
   depends_on 'fontforge'
 
   def install
-    share_fonts = share+'ricty/fonts'
+    share_fonts = share+'fonts'
 
     InconsolataFonts.new.brew { share_fonts.install Dir['*'] }
     Migu1MFonts.new.brew { share_fonts.install Dir['*'] }
