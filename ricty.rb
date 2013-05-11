@@ -37,4 +37,16 @@ class Ricty < Formula
   test do
     system "false"
   end
+
+  def caveats; <<-EOS.undent
+    ***************************************************
+    Generated files:
+      #{Dir[share+'fonts/Ricty*.ttf'].join("\n      ")}
+    ***************************************************
+    To install Ricty:
+      $ cp -f #{share}/fonts/Ricty*.ttf ~/Library/Fonts/
+      $ fc-cache -vf
+    ***************************************************
+    EOS
+  end
 end
