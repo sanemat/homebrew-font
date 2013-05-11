@@ -1,17 +1,19 @@
 require 'formula'
 
 class InconsolataFonts < Formula
+  homepage 'http://levien.com/type/myfonts/inconsolata.html'
   url 'http://levien.com/type/myfonts/Inconsolata.otf'
   sha1 '7f0a4919d91edcef0af9dc153054ec49d1ab3072'
 end
 
 class Migu1MFonts < Formula
+  homepage 'http://mix-mplus-ipa.sourceforge.jp/'
   url 'http://sourceforge.jp/frs/redir.php?m=jaist&f=%2Fmix-mplus-ipa%2F58720%2Fmigu-1m-20130430.zip'
   sha1 '5fb8634d4f67df3889e98c1491e9d6b335bc95c7'
 end
 
 class Ricty < Formula
-  homepage ''
+  homepage 'https://github.com/yascentur/Ricty'
   url 'https://github.com/yascentur/Ricty/archive/3.2.1.tar.gz'
   sha1 '5a5aaa69949544eb8522ee1fa3d2862ce6a4a5e4'
 
