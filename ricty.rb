@@ -1,5 +1,10 @@
 require 'formula'
 
+class InconsolataFonts < Formula
+  url 'http://levien.com/type/myfonts/Inconsolata.otf', :using => :curl
+  sha1 '7f0a4919d91edcef0af9dc153054ec49d1ab3072'
+end
+
 class Ricty < Formula
   homepage ''
   url 'https://github.com/yascentur/Ricty/archive/3.2.1.tar.gz'
