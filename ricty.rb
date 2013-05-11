@@ -1,7 +1,7 @@
 require 'formula'
 
 class InconsolataFonts < Formula
-  url 'http://levien.com/type/myfonts/Inconsolata.otf', :using => :curl
+  url 'http://levien.com/type/myfonts/Inconsolata.otf'
   sha1 '7f0a4919d91edcef0af9dc153054ec49d1ab3072'
 end
 
