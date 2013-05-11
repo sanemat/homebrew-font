@@ -1,9 +1,6 @@
 require 'formula'
 
-# Documentation: https://github.com/mxcl/homebrew/wiki/Formula-Cookbook
-# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
-
-class RictyGenerator < Formula
+class Ricty < Formula
   homepage ''
   url 'https://github.com/yascentur/Ricty/archive/3.2.1.tar.gz'
   sha1 '5a5aaa69949544eb8522ee1fa3d2862ce6a4a5e4'
