@@ -27,6 +27,11 @@ class Ricty < Formula
 
     InconsolataFonts.new.brew { share_fonts.install Dir['*'] }
     Migu1MFonts.new.brew { share_fonts.install Dir['*'] }
+
+    system 'sh', './ricty_generator.sh', share_fonts+'Inconsolata.otf',
+                                         share_fonts+'migu-1m-regular.ttf',
+                                         share_fonts+'migu-1m-bold.ttf'
+    share_fonts.install Dir['Ricty*.ttf']
   end
 
   test do
