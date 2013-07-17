@@ -9,9 +9,9 @@ end
 
 class Migu1MFonts < Formula
   homepage 'http://mix-mplus-ipa.sourceforge.jp/'
-  url 'http://sourceforge.jp/frs/redir.php?m=jaist&f=%2Fmix-mplus-ipa%2F58720%2Fmigu-1m-20130430.zip'
-  sha1 '5fb8634d4f67df3889e98c1491e9d6b335bc95c7'
-  version '20130430'
+  url 'http://sourceforge.jp/frs/redir.php?m=iij&f=%2Fmix-mplus-ipa%2F59022%2Fmigu-1m-20130617.zip'
+  sha1 'a0641894cec593f8bb1e5c2bf630f20ee9746b18'
+  version '20130617'
 end
 
 class Ricty < Formula
