@@ -16,9 +16,9 @@ end
 
 class Ricty < Formula
   homepage 'https://github.com/yascentur/Ricty'
-  url 'https://github.com/yascentur/Ricty/archive/3.2.1.tar.gz'
-  sha1 '5a5aaa69949544eb8522ee1fa3d2862ce6a4a5e4'
-  version '3.2.1'
+  url 'https://github.com/yascentur/Ricty/archive/3.2.2.tar.gz'
+  sha1 '5422e8a308dbe93805bc36c2c6b29070503f9058'
+  version '3.2.2'
 
   depends_on 'fontforge'
 
