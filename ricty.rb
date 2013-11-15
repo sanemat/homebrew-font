@@ -15,7 +15,7 @@ class Migu1MFonts < Formula
 end
 
 class Powerline < Formula
-  homepage 'https://github.com/Lokaltog/vim-powerline'
+  homepage 'https://github.com/Lokaltog/powerline'
   url 'https://github.com/Lokaltog/powerline/archive/db80fc95ed.tar.gz'
   sha1 '00c8911bce9ad9eab72ff1b366bc4ea417404724'
   version '20130827'
