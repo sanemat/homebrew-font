@@ -7,6 +7,13 @@ class InconsolataFonts < Formula
   version '1.0.0'
 end
 
+class InconsolataDZFonts < Formula
+  homepage 'http://nodnod.net/2009/feb/12/adding-straight-single-and-double-quotes-inconsola/'
+  url 'http://media.nodnod.net/Inconsolata-dz.otf.zip'
+  sha1 'c8254dbed67fb134d4747a7f41095cedab33b879'
+  version '1.0.0'
+end
+
 class Migu1MFonts < Formula
   homepage 'http://mix-mplus-ipa.sourceforge.jp/'
   url 'http://sourceforge.jp/frs/redir.php?m=iij&f=%2Fmix-mplus-ipa%2F59022%2Fmigu-1m-20130617.zip'
@@ -36,13 +43,13 @@ class Ricty < Formula
 
   option "powerline", "Patch for Powerline"
   option "vim-powerline", "Patch for Powerline from vim-powerline"
+  option "dz", "Use Inconsolata-dz instead of Inconsolata"
 
   depends_on 'fontforge'
 
   def install
     share_fonts = share+'fonts'
 
-    InconsolataFonts.new.brew { share_fonts.install Dir['*'] }
     Migu1MFonts.new.brew { share_fonts.install Dir['*'] }
     if build.include? "powerline"
       Powerline.new.brew { buildpath.install 'font' }
@@ -50,10 +57,22 @@ class Ricty < Formula
     if build.include? "vim-powerline"
       VimPowerline.new.brew { buildpath.install 'fontpatcher' }
     end
+    if build.include? "dz"
+      InconsolataDZFonts.new.brew { share_fonts.install Dir['*'] }
+    else
+      InconsolataFonts.new.brew { share_fonts.install Dir['*'] }
+    end
 
-    system 'sh', './ricty_generator.sh', share_fonts+'Inconsolata.otf',
-                                         share_fonts+'migu-1m-regular.ttf',
-                                         share_fonts+'migu-1m-bold.ttf'
+    if build.include? "dz"
+      system 'sh', './ricty_generator.sh', share_fonts+'Inconsolata-dz.otf',
+                                           share_fonts+'migu-1m-regular.ttf',
+                                           share_fonts+'migu-1m-bold.ttf'
+    else
+      system 'sh', './ricty_generator.sh', share_fonts+'Inconsolata.otf',
+                                           share_fonts+'migu-1m-regular.ttf',
+                                           share_fonts+'migu-1m-bold.ttf'
+    end
+
     ttf_files = Dir["Ricty*.ttf"]
     if build.include? "powerline"
       ttf_files.each do |ttf|
