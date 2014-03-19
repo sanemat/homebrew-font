@@ -22,10 +22,10 @@ class Migu1MFonts < Formula
 end
 
 class Powerline < Formula
-  homepage 'https://github.com/Lokaltog/powerline'
-  url 'https://github.com/Lokaltog/powerline/archive/db80fc95ed.tar.gz'
-  sha1 '00c8911bce9ad9eab72ff1b366bc4ea417404724'
-  version '20130827'
+  homepage 'https://github.com/Lokaltog/powerline-fontpatcher'
+  url 'https://github.com/Lokaltog/powerline-fontpatcher/archive/18a788b8ec.zip'
+  sha1 'c34aaaafadd14d9f456b7d05b8c90af441808abc'
+  version '20140119'
 end
 
 class VimPowerline < Formula
@@ -52,7 +52,7 @@ class Ricty < Formula
 
     Migu1MFonts.new.brew { share_fonts.install Dir['*'] }
     if build.include? "powerline"
-      Powerline.new.brew { buildpath.install 'font' }
+      Powerline.new.brew { buildpath.install Dir['*'] }
     end
     if build.include? "vim-powerline"
       VimPowerline.new.brew { buildpath.install 'fontpatcher' }
@@ -76,7 +76,7 @@ class Ricty < Formula
     ttf_files = Dir["Ricty*.ttf"]
     if build.include? "powerline"
       ttf_files.each do |ttf|
-        system "fontforge -lang=py -script #{buildpath/'font/fontpatcher.py'} #{ttf}"
+        system "fontforge -lang=py -script #{buildpath/'scripts/powerline-fontpatcher'} #{ttf}"
       end
     end
     if build.include? "vim-powerline"
