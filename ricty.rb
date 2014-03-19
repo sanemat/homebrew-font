@@ -26,6 +26,7 @@ class Powerline < Formula
   url 'https://github.com/Lokaltog/powerline-fontpatcher/archive/18a788b8ec.zip'
   sha1 'c34aaaafadd14d9f456b7d05b8c90af441808abc'
   version '20140119'
+  patch :DATA
 end
 
 class VimPowerline < Formula
@@ -103,3 +104,17 @@ class Ricty < Formula
     EOS
   end
 end
+
+__END__
+diff --git a/scripts/powerline-fontpatcher b/scripts/powerline-fontpatcher
+index ed2bc65..094c974
+--- a/scripts/powerline-fontpatcher
++++ b/scripts/powerline-fontpatcher
+@@ -73,0 +74,7 @@ class FontPatcher(object):
++				# Ignore the above calculation and
++				# manually set the best values for Ricty
++				target_bb[0]=0
++				target_bb[1]=-525
++				target_bb[2]=1025
++				target_bb[3]=1650
++
