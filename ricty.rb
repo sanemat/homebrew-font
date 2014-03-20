@@ -45,6 +45,8 @@ class Ricty < Formula
   option "powerline", "Patch for Powerline"
   option "vim-powerline", "Patch for Powerline from vim-powerline"
   option "dz", "Use Inconsolata-dz instead of Inconsolata"
+  option "disable-fullwidth", "Disable fullwidth ambiguous characters"
+  option "disable-visible-space", "Disable visible zenkaku space"
 
   depends_on 'fontforge'
 
@@ -60,19 +62,17 @@ class Ricty < Formula
     end
     if build.include? "dz"
       InconsolataDZFonts.new.brew { share_fonts.install Dir['*'] }
+      inconsolata = share_fonts+'Inconsolata-dz.otf'
     else
       InconsolataFonts.new.brew { share_fonts.install Dir['*'] }
+      inconsolata = share_fonts+'Inconsolata.otf'
     end
 
-    if build.include? "dz"
-      system 'sh', './ricty_generator.sh', share_fonts+'Inconsolata-dz.otf',
-                                           share_fonts+'migu-1m-regular.ttf',
-                                           share_fonts+'migu-1m-bold.ttf'
-    else
-      system 'sh', './ricty_generator.sh', share_fonts+'Inconsolata.otf',
-                                           share_fonts+'migu-1m-regular.ttf',
-                                           share_fonts+'migu-1m-bold.ttf'
-    end
+    ricty_args = [inconsolata, share_fonts+'migu-1m-regular.ttf', share_fonts+'migu-1m-bold.ttf']
+    ricty_args.unshift('-z') if build.include? 'disable-visible-space'
+    ricty_args.unshift('-a') if build.include? 'disable-fullwidth'
+
+    system 'sh', './ricty_generator.sh', *ricty_args
 
     ttf_files = Dir["Ricty*.ttf"]
     if build.include? "powerline"
