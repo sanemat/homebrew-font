@@ -47,18 +47,26 @@ class Ricty < Formula
   option "dz", "Use Inconsolata-dz instead of Inconsolata"
   option "disable-fullwidth", "Disable fullwidth ambiguous characters"
   option "disable-visible-space", "Disable visible zenkaku space"
+  option "patch-in-place", "Patch Powerline glyphs directly into Ricty fonts without creating new 'for Powerline' fonts"
 
   depends_on 'fontforge'
 
   def install
     share_fonts = share+'fonts'
+    powerline_script = []
 
     Migu1MFonts.new.brew { share_fonts.install Dir['*'] }
     if build.include? "powerline"
       Powerline.new.brew { buildpath.install Dir['*'] }
+      powerline_script << buildpath+'scripts/powerline-fontpatcher'
+      rename_from = "(Ricty|Discord)-?"
+      rename_to = "\\1 "
     end
-    if build.include? "vim-powerline"
+    if build.include? "vim-powerline" and not (build.include? "powerline" and build.include? "patch-in-place")
       VimPowerline.new.brew { buildpath.install 'fontpatcher' }
+      powerline_script << buildpath+'fontpatcher/fontpatcher'
+      rename_from = "\.ttf"
+      rename_to = "-Powerline.ttf"
     end
     if build.include? "dz"
       InconsolataDZFonts.new.brew { share_fonts.install Dir['*'] }
@@ -72,17 +80,18 @@ class Ricty < Formula
     ricty_args.unshift('-z') if build.include? 'disable-visible-space'
     ricty_args.unshift('-a') if build.include? 'disable-fullwidth'
 
+    powerline_args = []
+    powerline_args.unshift('--no-rename') if build.include? 'patch-in-place'
+
     system 'sh', './ricty_generator.sh', *ricty_args
 
     ttf_files = Dir["Ricty*.ttf"]
-    if build.include? "powerline"
-      ttf_files.each do |ttf|
-        system "fontforge -lang=py -script #{buildpath/'scripts/powerline-fontpatcher'} #{ttf}"
-      end
-    end
-    if build.include? "vim-powerline"
-      ttf_files.each do |ttf|
-        system "fontforge -lang=py -script #{buildpath/'fontpatcher/fontpatcher'} #{ttf}"
+    if build.include? "powerline" or build.include? "vim-powerline"
+      powerline_script.each do |script|
+        ttf_files.each do |ttf|
+          system "fontforge -lang=py -script #{script} #{powerline_args} #{ttf}"
+          mv ttf.gsub(/#{rename_from}/,rename_to), ttf if build.include? "patch-in-place"
+        end
       end
     end
     share_fonts.install Dir['Ricty*.ttf']
