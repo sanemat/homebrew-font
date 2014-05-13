@@ -38,9 +38,9 @@ end
 
 class Ricty < Formula
   homepage 'https://github.com/yascentur/Ricty'
-  url 'https://github.com/yascentur/Ricty/archive/3.2.2.tar.gz'
-  sha1 '5422e8a308dbe93805bc36c2c6b29070503f9058'
-  version '3.2.2'
+  url 'https://github.com/yascentur/Ricty/archive/3.2.3.tar.gz'
+  sha1 'be01bde44bd96a113430150ac1c06c34bf34ab09'
+  version '3.2.3'
 
   option "powerline", "Patch for Powerline"
   option "vim-powerline", "Patch for Powerline from vim-powerline"
