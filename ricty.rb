@@ -55,24 +55,24 @@ class Ricty < Formula
     share_fonts = share+'fonts'
     powerline_script = []
 
-    Migu1MFonts.new.brew { share_fonts.install Dir['*'] }
+    Formula.factory('migu1-m-fonts').brew { share_fonts.install Dir['*'] }
     if build.include? "powerline"
-      Powerline.new.brew { buildpath.install Dir['*'] }
+      Formula.factory('powerline').brew { buildpath.install Dir['*'] }
       powerline_script << buildpath+'scripts/powerline-fontpatcher'
       rename_from = "(Ricty|Discord)-?"
       rename_to = "\\1 "
     end
     if build.include? "vim-powerline" and not (build.include? "powerline" and build.include? "patch-in-place")
-      VimPowerline.new.brew { buildpath.install 'fontpatcher' }
+      Formula.factory('vim-powerline').brew { buildpath.install 'fontpatcher' }
       powerline_script << buildpath+'fontpatcher/fontpatcher'
       rename_from = "\.ttf"
       rename_to = "-Powerline.ttf"
     end
     if build.include? "dz"
-      InconsolataDZFonts.new.brew { share_fonts.install Dir['*'] }
-      inconsolata = share_fonts+'Inconsolata-dz.otf'
+      Formula.factory('inconsolata-d-z-fonts').brew { share_fonts.install Dir['*'] }
+      inconsolata = share_fonts+'Inco-nsolata-dz.otf'
     else
-      InconsolataFonts.new.brew { share_fonts.install Dir['*'] }
+      Formula.factory('inconsolata-fonts').brew { share_fonts.install Dir['*'] }
       inconsolata = share_fonts+'Inconsolata.otf'
     end
 
