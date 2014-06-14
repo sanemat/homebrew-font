@@ -89,7 +89,7 @@ class Ricty < Formula
     if build.include? "powerline" or build.include? "vim-powerline"
       powerline_script.each do |script|
         ttf_files.each do |ttf|
-          system "fontforge -lang=py -script #{script} #{powerline_args} #{ttf}"
+          system "fontforge -lang=py -script #{script} #{powerline_args.join(' ')} #{ttf}"
           mv ttf.gsub(/#{rename_from}/,rename_to), ttf if build.include? "patch-in-place"
         end
       end
