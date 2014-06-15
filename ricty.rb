@@ -70,7 +70,7 @@ class Ricty < Formula
     end
     if build.include? "dz"
       Formula.factory('inconsolata-d-z-fonts').brew { share_fonts.install Dir['*'] }
-      inconsolata = share_fonts+'Inco-nsolata-dz.otf'
+      inconsolata = share_fonts+'Inconsolata-dz.otf'
     else
       Formula.factory('inconsolata-fonts').brew { share_fonts.install Dir['*'] }
       inconsolata = share_fonts+'Inconsolata.otf'
