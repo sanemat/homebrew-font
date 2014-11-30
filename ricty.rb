@@ -2,9 +2,7 @@ require 'formula'
 
 class InconsolataFonts < Formula
   homepage 'http://levien.com/type/myfonts/inconsolata.html'
-  # url 'http://levien.com/type/myfonts/Inconsolata.otf'
-  # Hot fix, levien.com is missing
-  url 'http://dbg.download.sourcemage.org/mirror/Inconsolata.otf'
+  url 'http://levien.com/type/myfonts/Inconsolata.otf'
   sha1 '7f0a4919d91edcef0af9dc153054ec49d1ab3072'
   version '1.0.0'
 end
