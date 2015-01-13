@@ -1,18 +1,18 @@
 require 'formula'
 
 class Powerline < Formula
-  homepage 'https://github.com/Lokaltog/powerline-fontpatcher'
-  url 'https://github.com/Lokaltog/powerline-fontpatcher/archive/18a788b8ec.zip'
-  sha1 'c34aaaafadd14d9f456b7d05b8c90af441808abc'
-  version '20140119'
+  homepage 'https://github.com/powerline/fontpatcher'
+  url 'https://github.com/powerline/fontpatcher/archive/develop.zip'
+  sha1 '736a095b96dcbaeefbd90be191ebd0ba0c0ef19d'
+  version '20150113'
   patch :DATA
 end
 
 class Ricty < Formula
   homepage 'https://github.com/yascentur/Ricty'
-  url 'https://github.com/yascentur/Ricty/archive/3.2.3.tar.gz'
-  sha1 'be01bde44bd96a113430150ac1c06c34bf34ab09'
-  version '3.2.3'
+  url 'https://github.com/yascentur/Ricty/archive/3.2.4.tar.gz'
+  sha1 '7fc8adcc74656d9e2e1acd325de82f0f08a6d222'
+  version '3.2.4'
 
   resource 'inconsolatafonts' do
       url 'http://levien.com/type/myfonts/Inconsolata.otf'
