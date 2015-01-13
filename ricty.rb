@@ -2,8 +2,8 @@ require 'formula'
 
 class Powerline < Formula
   homepage 'https://github.com/powerline/fontpatcher'
-  url 'https://github.com/powerline/fontpatcher/archive/develop.zip'
-  sha1 '736a095b96dcbaeefbd90be191ebd0ba0c0ef19d'
+  url 'https://github.com/powerline/fontpatcher/archive/18a788b8ec1822095813b73b0582a096320ff714.zip'
+  sha1 'eacbca3a3e3b7acd03743e80a51de97c9c0bbc80'
   version '20150113'
   def initialize name='powerline', path=self.class.path(name), spec='stable'
       super
