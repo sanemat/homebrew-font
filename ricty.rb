@@ -5,6 +5,9 @@ class Powerline < Formula
   url 'https://github.com/powerline/fontpatcher/archive/develop.zip'
   sha1 '736a095b96dcbaeefbd90be191ebd0ba0c0ef19d'
   version '20150113'
+  def initialize name='powerline', path=self.class.path(name), spec='stable'
+      super
+  end
   patch :DATA
 end
 
