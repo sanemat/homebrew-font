@@ -1,26 +1,5 @@
 require 'formula'
 
-class InconsolataFonts < Formula
-  homepage 'http://levien.com/type/myfonts/inconsolata.html'
-  url 'http://levien.com/type/myfonts/Inconsolata.otf'
-  sha1 '7f0a4919d91edcef0af9dc153054ec49d1ab3072'
-  version '1.0.0'
-end
-
-class InconsolataDZFonts < Formula
-  homepage 'http://nodnod.net/2009/feb/12/adding-straight-single-and-double-quotes-inconsola/'
-  url 'http://media.nodnod.net/Inconsolata-dz.otf.zip'
-  sha1 'c8254dbed67fb134d4747a7f41095cedab33b879'
-  version '1.0.0'
-end
-
-class Migu1MFonts < Formula
-  homepage 'http://mix-mplus-ipa.sourceforge.jp/'
-  url 'http://sourceforge.jp/frs/redir.php?m=iij&f=%2Fmix-mplus-ipa%2F59022%2Fmigu-1m-20130617.zip'
-  sha1 'a0641894cec593f8bb1e5c2bf630f20ee9746b18'
-  version '20130617'
-end
-
 class Powerline < Formula
   homepage 'https://github.com/Lokaltog/powerline-fontpatcher'
   url 'https://github.com/Lokaltog/powerline-fontpatcher/archive/18a788b8ec.zip'
@@ -29,18 +8,36 @@ class Powerline < Formula
   patch :DATA
 end
 
-class VimPowerline < Formula
-  homepage 'https://github.com/Lokaltog/vim-powerline'
-  url 'https://github.com/Lokaltog/vim-powerline/archive/09c0cea859.tar.gz'
-  sha1 'a1acef16074b6c007a57de979787a9b166f1feb1'
-  version '20120817'
-end
-
 class Ricty < Formula
   homepage 'https://github.com/yascentur/Ricty'
   url 'https://github.com/yascentur/Ricty/archive/3.2.3.tar.gz'
   sha1 'be01bde44bd96a113430150ac1c06c34bf34ab09'
   version '3.2.3'
+
+  resource 'inconsolatafonts' do
+      url 'http://levien.com/type/myfonts/Inconsolata.otf'
+      sha1 '7f0a4919d91edcef0af9dc153054ec49d1ab3072'
+      version '1.0.0'
+  end
+
+  resource 'inconsolatadzfonts' do
+      url 'http://media.nodnod.net/Inconsolata-dz.otf.zip'
+      sha1 'c8254dbed67fb134d4747a7f41095cedab33b879'
+      version '1.0.0'
+  end
+
+  resource 'migu1mfonts' do
+      url 'http://sourceforge.jp/frs/redir.php?m=iij&f=%2Fmix-mplus-ipa%2F59022%2Fmigu-1m-20130617.zip'
+      sha1 'a0641894cec593f8bb1e5c2bf630f20ee9746b18'
+      version '20130617'
+  end
+
+  resource 'vimpowerline' do
+      url 'https://github.com/Lokaltog/vim-powerline/archive/09c0cea859.tar.gz'
+      sha1 'a1acef16074b6c007a57de979787a9b166f1feb1'
+      version '20120817'
+  end
+
 
   option "powerline", "Patch for Powerline"
   option "vim-powerline", "Patch for Powerline from vim-powerline"
@@ -49,30 +46,30 @@ class Ricty < Formula
   option "disable-visible-space", "Disable visible zenkaku space"
   option "patch-in-place", "Patch Powerline glyphs directly into Ricty fonts without creating new 'for Powerline' fonts"
 
-  depends_on 'fontforge' => 'with-python'
+  depends_on 'fontforge'
 
   def install
     share_fonts = share+'fonts'
     powerline_script = []
 
-    Formula.factory('migu1-m-fonts').brew { share_fonts.install Dir['*'] }
+    resource('migu1mfonts').stage { share_fonts.install Dir['*'] }
     if build.include? "powerline"
-      Formula.factory('powerline').brew { buildpath.install Dir['*'] }
+      Powerline.new.brew { buildpath.install Dir['*'] }
       powerline_script << buildpath+'scripts/powerline-fontpatcher'
       rename_from = "(Ricty|Discord)-?"
       rename_to = "\\1 "
     end
     if build.include? "vim-powerline" and not (build.include? "powerline" and build.include? "patch-in-place")
-      Formula.factory('vim-powerline').brew { buildpath.install 'fontpatcher' }
+      resource('vimpowerline').stage { buildpath.install 'fontpatcher' }
       powerline_script << buildpath+'fontpatcher/fontpatcher'
       rename_from = "\.ttf"
       rename_to = "-Powerline.ttf"
     end
     if build.include? "dz"
-      Formula.factory('inconsolata-d-z-fonts').brew { share_fonts.install Dir['*'] }
+      resource('inconsolatadzfonts').stage { share_fonts.install Dir['*'] }
       inconsolata = share_fonts+'Inconsolata-dz.otf'
     else
-      Formula.factory('inconsolata-fonts').brew { share_fonts.install Dir['*'] }
+      resource('inconsolatafonts').stage { share_fonts.install Dir['*'] }
       inconsolata = share_fonts+'Inconsolata.otf'
     end
 
