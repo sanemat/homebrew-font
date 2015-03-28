@@ -70,6 +70,9 @@ class Ricty < Formula
     if build.include? 'dz'
       resource('inconsolatadzfonts').stage { share_fonts.install Dir['*'] }
       inconsolata = share_fonts + 'Inconsolata-dz.otf'
+      # Patch the discord script since the special characters are in different locations in Inconsolata-dz
+      inreplace 'ricty_discord_patch.pe', '65608', '65543' # Serif r
+      inreplace 'ricty_discord_patch.pe', '65610', '65545' # Un-dotted zero
     else
       resource('inconsolatafonts').stage { share_fonts.install Dir['*'] }
       inconsolata = share_fonts + 'Inconsolata.otf'
