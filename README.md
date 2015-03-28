@@ -1,12 +1,9 @@
 homebrew-font
 =============
 
-# Install fonts
+# Installing Ricty fonts
 
-Compile Ricty Font
-
-* Install
-   * Recommend
+Recommended installation by tapping the repository
 
 ```
 $ brew tap sanemat/font
@@ -16,7 +13,7 @@ $ cp -f /PATH/TO/RICTY/fonts/Ricty*.ttf ~/Library/Fonts/
 $ fc-cache -vf
 ```
 
-   * Anothor
+Alternate method to install without tapping the repository
 
 ```
 $ brew install https://raw.github.com/sanemat/homebrew-font/master/ricty.rb
@@ -26,9 +23,9 @@ $ brew install https://raw.github.com/sanemat/homebrew-font/master/ricty.rb
 
 # Troubleshooting
 
-## Error during `brew install fontforge`
+## I get a Python error during `brew install fontforge`
 
-If you meet error during `brew install fontforge`, like below:
+If you get an error during `brew install fontforge`, like below:
 
 ```
 ==> Patching
@@ -41,24 +38,24 @@ and PYTHON_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details.
 ```
 
-### Short help (work around)
+### Quick fix (work around)
 
-Exec below:
+Execute the following:
 
 ```
-# Install python before install fontforge and ricty
+# Install python before installing fontforge and ricty
 brew install python
-# then install fontforge and ricty
+# Then install fontforge and ricty
 brew install ricty
 ```
 
 ### Long help (my environment)
 
-I use homebrew of course, but I don't use homebrew's python. I use pyenv via anyenv. In homebrew build script, your PKG_CONFIG_PATH are not used, there is homebrew's PKG_CONFIG_PATH. You can try this `brew sh` and `printenv | grep PKG_CONFIG_PATH`.
+I use homebrew of course, but I don't use homebrew's python. I use pyenv via anyenv. In the homebrew build script, your `PKG_CONFIG_PATH` is not used; there is homebrew's `PKG_CONFIG_PATH`. You can try this `brew sh` and `printenv | grep PKG_CONFIG_PATH`.
 
-[fontforge configuration script](https://github.com/fontforge/fontforge/blob/7432f9a102f0f4268c5caabbb4f55d3ac33b0d0d/configure.ac#L217-L230) doesn't detect pyenv's python (I think, but I'm not familier with autoconf yet, sorry). I don't understand why this doesn't detect system python (after I exec `pyenv global system`).
+The [fontforge configuration script](https://github.com/fontforge/fontforge/blob/7432f9a102f0f4268c5caabbb4f55d3ac33b0d0d/configure.ac#L217-L230) doesn't detect pyenv's python (I think, but I'm not famliar with autoconf yet, sorry). I don't understand why this doesn't detect the system python (after I execute `pyenv global system`).
 
-This is debug output `brew install fontforge --verbose --debug` below:
+The following is the debug output of `brew install fontforge --verbose --debug`:
 
 ```
 detected a homebrew build environment
