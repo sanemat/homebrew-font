@@ -5,7 +5,7 @@ class Powerline < Formula
   url 'https://github.com/powerline/fontpatcher/archive/18a788b8ec1822095813b73b0582a096320ff714.zip'
   sha1 'eacbca3a3e3b7acd03743e80a51de97c9c0bbc80'
   version '20150113'
-  def initialize(name = 'powerline', path = self.class.path(name), spec = 'stable')
+  def initialize(name = 'powerline', path = Pathname(__FILE__), spec = 'stable')
     super
   end
   patch :DATA
@@ -56,7 +56,9 @@ class Ricty < Formula
 
     resource('migu1mfonts').stage { share_fonts.install Dir['*'] }
     if build.include? 'powerline'
-      Powerline.new.brew { buildpath.install Dir['*'] }
+      powerline = Powerline.new
+      powerline.brew { buildpath.install Dir['*'] }
+      powerline.patch
       powerline_script << buildpath + 'scripts/powerline-fontpatcher'
       rename_from = '(Ricty|Discord)-?'
       rename_to = "\\1 "
