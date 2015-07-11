@@ -20,6 +20,7 @@ class Ricty < Formula
   option "disable-fullwidth", "Disable fullwidth ambiguous characters"
   option "disable-visible-space", "Disable visible zenkaku space"
   option "patch-in-place", "Patch Powerline glyphs directly into Ricty fonts without creating new 'for Powerline' fonts"
+  option "oblique", "make oblique fonts"
 
   depends_on "fontforge"
 
@@ -56,7 +57,7 @@ class Ricty < Formula
       powerline.brew { buildpath.install Dir["*"] }
       powerline.patch
       powerline_script << buildpath + "scripts/powerline-fontpatcher"
-      rename_from = "(Ricty|Discord)-?"
+      rename_from = "(Ricty|Discord|Bold(?=Oblique))-?"
       rename_to = "\\1 "
     end
     if build.include?("vim-powerline") && !(build.include?("powerline") && build.include?("patch-in-place"))
@@ -78,6 +79,13 @@ class Ricty < Formula
     system "sh", "./ricty_generator-#{version}.sh", *ricty_args
 
     ttf_files = Dir["Ricty*.ttf"]
+    if build.include? "oblique"
+      ttf_files.each do |file|
+        system "fontforge -script misc/regular2oblique_converter.pe #{file}"
+      end
+      ttf_files = Dir["Ricty*.ttf"]
+    end
+
     if build.include?("powerline") || build.include?("vim-powerline")
       powerline_script.each do |script|
         ttf_files.each do |ttf|
