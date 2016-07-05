@@ -12,9 +12,9 @@ class Powerline < Formula
 end
 
 class Ricty < Formula
-  homepage 'https://github.com/yascentur/Ricty'
-  url 'https://github.com/yascentur/Ricty/archive/4.0.1.zip'
-  sha256 'c4997623a59a62ebe6a1a83a4deec24db0dc85faa73a2b0512c73a022e931161'
+  homepage 'http://www.rs.tus.ac.jp/yyusa/ricty.html'
+  url 'http://www.rs.tus.ac.jp/yyusa/ricty/ricty_generator.sh'
+  sha256 'a0163c48a636b4c9bbf601503e26af1e887a286c81209a8ccc8b8e485d044902'
   version '4.0.1'
 
   resource 'inconsolataregular' do
