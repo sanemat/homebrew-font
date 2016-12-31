@@ -14,8 +14,8 @@ end
 class Ricty < Formula
   homepage 'http://www.rs.tus.ac.jp/yyusa/ricty.html'
   url 'http://www.rs.tus.ac.jp/yyusa/ricty/ricty_generator.sh'
-  sha256 'a0163c48a636b4c9bbf601503e26af1e887a286c81209a8ccc8b8e485d044902'
-  version '4.0.1'
+  sha256 '6e2b656814ffdad5430f9c52bff89609b1350de1127f61966cdf441710ec60b3'
+  version '4.1.0'
 
   resource 'inconsolataregular' do
     url 'https://github.com/google/fonts/raw/master/ofl/inconsolata/Inconsolata-Regular.ttf'
