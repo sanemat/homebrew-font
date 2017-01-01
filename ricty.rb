@@ -20,8 +20,14 @@ class Ricty < Formula
   option "disable-fullwidth", "Disable fullwidth ambiguous characters"
   option "disable-visible-space", "Disable visible zenkaku space"
   option "patch-in-place", "Patch Powerline glyphs directly into Ricty fonts without creating new 'for Powerline' fonts"
+  option "oblique", "make oblique fonts"
 
   depends_on "fontforge"
+
+  resource "oblique_converter" do
+    url "http://www.rs.tus.ac.jp/yyusa/ricty/regular2oblique_converter.pe"
+    sha256 "365c7973a02abf3970f09a557f8f93065341885f9e13570fd2e901e530c4864d"
+  end
 
   resource "inconsolataregular" do
     url "https://github.com/google/fonts/raw/c6c7e432a29bd7c817feed0963f568a6d710625c/ofl/inconsolata/Inconsolata-Regular.ttf"
@@ -49,14 +55,19 @@ class Ricty < Formula
   def install
     share_fonts = share + "fonts"
     powerline_script = []
+    oblique_converter = ""
 
     resource("migu1mfonts").stage { buildpath.install Dir["*"] }
+    if build.include? "oblique"
+      resource("oblique_converter").stage { buildpath.install Dir["*"] }
+      oblique_converter = buildpath + "regular2oblique_converter.pe"
+    end
     if build.include? "powerline"
       powerline = Powerline.new
       powerline.brew { buildpath.install Dir["*"] }
       powerline.patch
       powerline_script << buildpath + "scripts/powerline-fontpatcher"
-      rename_from = "(Ricty|Discord)-?"
+      rename_from = "(Ricty|Discord|Bold(?=Oblique))-?"
       rename_to = "\\1 "
     end
     if build.include?("vim-powerline") && !(build.include?("powerline") && build.include?("patch-in-place"))
@@ -78,6 +89,13 @@ class Ricty < Formula
     system "sh", "./ricty_generator-#{version}.sh", *ricty_args
 
     ttf_files = Dir["Ricty*.ttf"]
+    if build.include? "oblique"
+      ttf_files.each do |file|
+        system "fontforge -script #{oblique_converter} #{file}"
+      end
+      ttf_files = Dir["Ricty*.ttf"]
+    end
+
     if build.include?("powerline") || build.include?("vim-powerline")
       powerline_script.each do |script|
         ttf_files.each do |ttf|
