@@ -26,11 +26,13 @@ class Ricty < Formula
   resource "inconsolataregular" do
     url "https://github.com/google/fonts/raw/c6c7e432a29bd7c817feed0963f568a6d710625c/ofl/inconsolata/Inconsolata-Regular.ttf"
     sha256 "346eff8b8292ef2b8026cf1dbea3fc0c79eba444270d38d73da895ddcba74e15"
+    version "c6c7e43"
   end
 
   resource "inconsolatabold" do
     url "https://github.com/google/fonts/raw/c6c7e432a29bd7c817feed0963f568a6d710625c/ofl/inconsolata/Inconsolata-Bold.ttf"
     sha256 "0db9dc0cf39efef147a7b368c98e1b7588afd2bc4d30e4c9e313f5511e599a87"
+    version "c6c7e43"
   end
 
   resource "migu1mfonts" do
@@ -48,7 +50,7 @@ class Ricty < Formula
     share_fonts = share + "fonts"
     powerline_script = []
 
-    resource("migu1mfonts").stage { share_fonts.install Dir["*"] }
+    resource("migu1mfonts").stage { buildpath.install Dir["*"] }
     if build.include? "powerline"
       powerline = Powerline.new
       powerline.brew { buildpath.install Dir["*"] }
@@ -63,12 +65,10 @@ class Ricty < Formula
       rename_from = "\.ttf"
       rename_to = "-Powerline.ttf"
     end
-    resource("inconsolataregular").stage { share_fonts.install Dir["*"] }
-    inconsolataregularttf = share_fonts + "Inconsolata-Regular.ttf"
-    resource("inconsolatabold").stage { share_fonts.install Dir["*"] }
-    inconsolataboldttf = share_fonts + "Inconsolata-Bold.ttf"
+    resource("inconsolataregular").stage { buildpath.install Dir["*"] }
+    resource("inconsolatabold").stage { buildpath.install Dir["*"] }
 
-    ricty_args = [inconsolataregularttf, inconsolataboldttf, share_fonts + "migu-1m-regular.ttf", share_fonts + "migu-1m-bold.ttf"]
+    ricty_args = ["Inconsolata-Regular.ttf", "Inconsolata-Bold.ttf", "migu-1m-regular.ttf", "migu-1m-bold.ttf"]
     ricty_args.unshift("-z") if build.include? "disable-visible-space"
     ricty_args.unshift("-a") if build.include? "disable-fullwidth"
 
