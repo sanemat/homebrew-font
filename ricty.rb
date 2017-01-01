@@ -11,8 +11,7 @@ end
 
 class Ricty < Formula
   homepage "http://www.rs.tus.ac.jp/yyusa/ricty.html"
-  url "http://www.rs.tus.ac.jp/yyusa/ricty/ricty_generator.sh"
-  version "4.1.0"
+  url "http://www.rs.tus.ac.jp/yyusa/ricty/ricty_generator-4.1.0.sh"
   sha256 "6e2b656814ffdad5430f9c52bff89609b1350de1127f61966cdf441710ec60b3"
 
   option "powerline", "Patch for Powerline"
@@ -77,7 +76,7 @@ class Ricty < Formula
     powerline_args = []
     powerline_args.unshift("--no-rename") if build.include? "patch-in-place"
 
-    system "sh", "./ricty_generator.sh", *ricty_args
+    system "sh", "./ricty_generator-#{version}.sh", *ricty_args
 
     ttf_files = Dir["Ricty*.ttf"]
     if build.include?("powerline") || build.include?("vim-powerline")
