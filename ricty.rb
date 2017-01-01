@@ -14,6 +14,7 @@ class Ricty < Formula
   url "http://www.rs.tus.ac.jp/yyusa/ricty/ricty_generator.sh"
   version "4.1.0"
   sha256 "6e2b656814ffdad5430f9c52bff89609b1350de1127f61966cdf441710ec60b3"
+  revision 1
 
   option "powerline", "Patch for Powerline"
   option "vim-powerline", "Patch for Powerline from vim-powerline"
@@ -24,15 +25,13 @@ class Ricty < Formula
   depends_on "fontforge"
 
   resource "inconsolataregular" do
-    url "https://github.com/google/fonts/raw/master/ofl/inconsolata/Inconsolata-Regular.ttf"
-    sha256 "e28c150b4390e5fd59aedc2c150b150086fbcba0b4dbde08ac260d6db65018d6"
-    version "2.0.0"
+    url "https://github.com/google/fonts/raw/c6c7e432a29bd7c817feed0963f568a6d710625c/ofl/inconsolata/Inconsolata-Regular.ttf"
+    sha256 "346eff8b8292ef2b8026cf1dbea3fc0c79eba444270d38d73da895ddcba74e15"
   end
 
   resource "inconsolatabold" do
-    url "https://github.com/google/fonts/raw/master/ofl/inconsolata/Inconsolata-Bold.ttf"
-    sha256 "c268fae6dbf17a27f648218fac958b86dc38e169f6315f0b02866966f56b42bf"
-    version "2.0.0"
+    url "https://github.com/google/fonts/raw/c6c7e432a29bd7c817feed0963f568a6d710625c/ofl/inconsolata/Inconsolata-Bold.ttf"
+    sha256 "0db9dc0cf39efef147a7b368c98e1b7588afd2bc4d30e4c9e313f5511e599a87"
   end
 
   resource "migu1mfonts" do
