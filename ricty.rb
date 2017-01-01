@@ -24,6 +24,11 @@ class Ricty < Formula
 
   depends_on "fontforge"
 
+  resource "oblique_converter" do
+    url "http://www.rs.tus.ac.jp/yyusa/ricty/regular2oblique_converter.pe"
+    sha256 "365c7973a02abf3970f09a557f8f93065341885f9e13570fd2e901e530c4864d"
+  end
+
   resource "inconsolataregular" do
     url "https://github.com/google/fonts/raw/c6c7e432a29bd7c817feed0963f568a6d710625c/ofl/inconsolata/Inconsolata-Regular.ttf"
     sha256 "346eff8b8292ef2b8026cf1dbea3fc0c79eba444270d38d73da895ddcba74e15"
@@ -50,8 +55,13 @@ class Ricty < Formula
   def install
     share_fonts = share + "fonts"
     powerline_script = []
+    oblique_converter = ""
 
     resource("migu1mfonts").stage { buildpath.install Dir["*"] }
+    if build.include? "oblique"
+      resource("oblique_converter").stage { buildpath.install Dir["*"] }
+      oblique_converter = buildpath + "regular2oblique_converter.pe"
+    end
     if build.include? "powerline"
       powerline = Powerline.new
       powerline.brew { buildpath.install Dir["*"] }
@@ -81,7 +91,7 @@ class Ricty < Formula
     ttf_files = Dir["Ricty*.ttf"]
     if build.include? "oblique"
       ttf_files.each do |file|
-        system "fontforge -script misc/regular2oblique_converter.pe #{file}"
+        system "fontforge -script #{oblique_converter} #{file}"
       end
       ttf_files = Dir["Ricty*.ttf"]
     end
