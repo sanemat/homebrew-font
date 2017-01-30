@@ -1,8 +1,8 @@
 class Powerline < Formula
   homepage "https://github.com/powerline/fontpatcher"
-  url "https://github.com/powerline/fontpatcher/archive/18a788b8ec1822095813b73b0582a096320ff714.zip"
-  sha256 "c50a9c9a94e7b5a3f0cd0c149c5c394684c8b9b63e049a9277500286921c29ce"
-  version "20150113"
+  url "https://github.com/powerline/fontpatcher/archive/c3488091611757cb02014ed7ed2f11be0208da83.zip"
+  sha256 "bf736ea3d18395ba197a492fc8b0ddb47b44142e101b6c780b2a8380503d5a36"
+  version "20160320"
   def initialize(name = "powerline", path = Pathname(__FILE__), spec = "stable")
     super
   end
@@ -10,19 +10,25 @@ class Powerline < Formula
 end
 
 class Ricty < Formula
+  desc "Font for programming"
   homepage "http://www.rs.tus.ac.jp/yyusa/ricty.html"
   url "http://www.rs.tus.ac.jp/yyusa/ricty/ricty_generator-4.1.0.sh"
   sha256 "6e2b656814ffdad5430f9c52bff89609b1350de1127f61966cdf441710ec60b3"
   revision 2
 
-  option "powerline", "Patch for Powerline"
-  option "vim-powerline", "Patch for Powerline from vim-powerline"
-  option "disable-fullwidth", "Disable fullwidth ambiguous characters"
-  option "disable-visible-space", "Disable visible zenkaku space"
-  option "patch-in-place", "Patch Powerline glyphs directly into Ricty fonts without creating new 'for Powerline' fonts"
-  option "oblique", "make oblique fonts"
+  option "with-powerline", "Patch for Powerline"
+  option "without-fullwidth", "Disable fullwidth ambiguous characters"
+  option "without-visible-space", "Disable visible zenkaku space"
+  option "with-patch-in-place", "Patch Powerline glyphs directly into Ricty fonts without creating new 'for Powerline' fonts"
+  option "with-oblique", "make oblique fonts"
 
-  depends_on "fontforge"
+  deprecated_option "powerline" => "with-powerline"
+  deprecated_option "disable-fullwidth" => "without-fullwidth"
+  deprecated_option "disable-visible-space" => "without-visible-space"
+  deprecated_option "patch-in-place" => "with-patch-in-place"
+  deprecated_option "oblique" => "with-oblique"
+
+  depends_on "fontforge" => :build
 
   resource "oblique_converter" do
     url "http://www.rs.tus.ac.jp/yyusa/ricty/regular2oblique_converter.pe"
@@ -54,63 +60,49 @@ class Ricty < Formula
 
   patch do
     # workaround for #43 and #46
-    url "https://gist.githubusercontent.com/equal-l2/4c87ebea28f35846a47b596b9689b00e/raw/5a8a8df7e6d2fffa29127bd1a2ca0134a9745fc9/ricty.diff"
+    url "https://raw.githubusercontent.com/sanemat/homebrew-font/master/ricty_generator.patch"
     sha256 "c27000c9f76d07781254e9a9122b018ad74e7bb5e7df0c0961251b43f00c9b26"
   end
 
   def install
-    share_fonts = share + "fonts"
-    powerline_script = []
-    oblique_converter = ""
-
     resource("migu1mfonts").stage { buildpath.install Dir["*"] }
-    if build.include? "oblique"
-      resource("oblique_converter").stage { buildpath.install Dir["*"] }
-      oblique_converter = buildpath + "regular2oblique_converter.pe"
-    end
-    if build.include? "powerline"
-      powerline = Powerline.new
-      powerline.brew { buildpath.install Dir["*"] }
-      powerline.patch
-      powerline_script << buildpath + "scripts/powerline-fontpatcher"
-      rename_from = "(Ricty|Discord|Bold(?=Oblique))-?"
-      rename_to = "\\1 "
-    end
-    if build.include?("vim-powerline") && !(build.include?("powerline") && build.include?("patch-in-place"))
-      resource("vimpowerline").stage { buildpath.install "fontpatcher" }
-      powerline_script << buildpath + "fontpatcher/fontpatcher"
-      rename_from = "\.ttf"
-      rename_to = "-Powerline.ttf"
-    end
     resource("inconsolataregular").stage { buildpath.install Dir["*"] }
     resource("inconsolatabold").stage { buildpath.install Dir["*"] }
 
-    ricty_args = ["Inconsolata-Regular.ttf", "Inconsolata-Bold.ttf", "migu-1m-regular.ttf", "migu-1m-bold.ttf"]
-    ricty_args.unshift("-z") if build.include? "disable-visible-space"
-    ricty_args.unshift("-a") if build.include? "disable-fullwidth"
+    if build.with? "oblique"
+      resource("oblique_converter").stage { buildpath.install Dir["*"] }
+    end
 
-    powerline_args = []
-    powerline_args.unshift("--no-rename") if build.include? "patch-in-place"
+    if build.with? "powerline"
+      powerline = Powerline.new
+      powerline.brew { buildpath.install Dir["*"] }
+      powerline.patch
+      rename_from = "(Ricty|Discord|Bold(?=Oblique))-?"
+      rename_to = "\\1 "
+    end
+
+    ricty_args = ["Inconsolata-Regular.ttf", "Inconsolata-Bold.ttf", "migu-1m-regular.ttf", "migu-1m-bold.ttf"]
+    ricty_args.unshift("-z") if build.without? "visible-space"
+    ricty_args.unshift("-a") if build.without? "fullwidth"
 
     system "sh", "./ricty_generator-#{version}.sh", *ricty_args
 
-    ttf_files = Dir["Ricty*.ttf"]
-    if build.include? "oblique"
-      ttf_files.each do |file|
-        system "fontforge -script #{oblique_converter} #{file}"
+    if build.with? "oblique"
+      Dir["Ricty*.ttf"].each do |ttf|
+        system "fontforge", "-script", buildpath/"regular2oblique_converter.pe", ttf
       end
-      ttf_files = Dir["Ricty*.ttf"]
     end
 
-    if build.include?("powerline") || build.include?("vim-powerline")
-      powerline_script.each do |script|
-        ttf_files.each do |ttf|
-          system "fontforge -lang=py -script #{script} #{powerline_args.join(' ')} #{ttf}"
-          mv ttf.gsub(/#{rename_from}/, rename_to), ttf if build.include? "patch-in-place"
-        end
+    if build.with? "powerline"
+      powerline_args = []
+      powerline_args.unshift("--no-rename") if build.with? "patch-in-place"
+      Dir["Ricty*.ttf"].each do |ttf|
+        system "fontforge", "-lang=py", "-script", buildpath/"scripts/powerline-fontpatcher", *powerline_args, ttf
+        mv ttf.gsub(/#{rename_from}/, rename_to), ttf if build.with? "patch-in-place"
       end
     end
-    share_fonts.install Dir["Ricty*.ttf"]
+
+    (share/"fonts").install Dir["Ricty*.ttf"]
   end
 
   def caveats; <<-EOS.undent
@@ -124,22 +116,22 @@ class Ricty < Formula
     ***************************************************
     EOS
   end
-
-  test do
-    system "false"
-  end
 end
 
 __END__
-diff --git a/scripts/powerline-fontpatcher b/scripts/powerline-fontpatcher
-index ed2bc65..094c974
 --- a/scripts/powerline-fontpatcher
 +++ b/scripts/powerline-fontpatcher
-@@ -73,0 +74,7 @@ class FontPatcher(object):
-+				# Ignore the above calculation and
-+				# manually set the best values for Ricty
-+				target_bb[0]=0
-+				target_bb[1]=-525
-+				target_bb[2]=1025
-+				target_bb[3]=1650
+@@ -79,6 +79,13 @@
+ 		if bbox[3] > target_bb[3]:
+ 			target_bb[3] = bbox[3]
+ 
++		# Ignore the above calculation and
++		# manually set the best values for Ricty
++		target_bb[0]=0
++		target_bb[1]=-525
++		target_bb[2]=1025
++		target_bb[3]=1650
 +
+ 	# Find source and target size difference for scaling
+ 	x_ratio = (target_bb[2] - target_bb[0]) / (source_bb[2] - source_bb[0])
+ 	y_ratio = (target_bb[3] - target_bb[1]) / (source_bb[3] - source_bb[1])

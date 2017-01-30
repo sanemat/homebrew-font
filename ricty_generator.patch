@@ -1,0 +1,22 @@
+--- a/ricty_generator-4.1.0.sh
++++ b/ricty_generator-4.1.0.sh
+@@ -314,6 +314,10 @@ while (i < SizeOf(input_list))
+     Print("Open " + input_list[i] + ".")
+     Open(input_list[i])
+
++    SelectAll()
++    ClearInstrs()
++    UnlinkReference()
++
+     # Scale to standard glyph size
+     ScaleToEm(860, 140)
+
+@@ -513,9 +517,6 @@ while (i < SizeOf(input_list))
+
+     # Process for merging
+     Print("Process for merging.")
+-    SelectWorthOutputting()
+-    ClearInstrs()
+-    UnlinkReference()
+
+     # Save modified Inconsolata
