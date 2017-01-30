@@ -52,12 +52,6 @@ class Ricty < Formula
     sha256 "d4c38664dd57bc5927abe8f4fbea8f06a8ece3fea49ea02354d4e03ac6d15006"
   end
 
-  resource "vimpowerline" do
-    url "https://github.com/Lokaltog/vim-powerline/archive/09c0cea859.tar.gz"
-    sha256 "dde995aaf8e7f4a8d9ea3a9d34e55d760e4979314ff8c1bf0f6e25caf606b3b0"
-    version "20120817"
-  end
-
   patch do
     # workaround for #43 and #46
     url "https://raw.githubusercontent.com/sanemat/homebrew-font/cb5d2304f62226e3aa821a2563d3f7278342e2fe/ricty_generator.patch"
