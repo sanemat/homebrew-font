@@ -60,7 +60,7 @@ class Ricty < Formula
 
   patch do
     # workaround for #43 and #46
-    url "https://raw.githubusercontent.com/sanemat/homebrew-font/master/ricty_generator.patch"
+    url "https://raw.githubusercontent.com/sanemat/homebrew-font/cb5d2304f62226e3aa821a2563d3f7278342e2fe/ricty_generator.patch"
     sha256 "c27000c9f76d07781254e9a9122b018ad74e7bb5e7df0c0961251b43f00c9b26"
   end
 
