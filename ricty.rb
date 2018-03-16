@@ -99,7 +99,7 @@ class Ricty < Formula
     (share/"fonts").install Dir["Ricty*.ttf"]
   end
 
-  def caveats; <<-EOS.undent
+  def caveats; <<~EOS
     ***************************************************
     Generated files:
       #{Dir[share + "fonts/Ricty*.ttf"].join("\n      ")}
