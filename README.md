@@ -13,34 +13,6 @@ $ fc-cache -vf
 
 # Troubleshooting
 
-## The dependencies require that I install XQuartz
-
-Fontforge's dependencies, Cairo and Pango, install with X11 support by default and depend on XQuartz, so you might get an error like the following:
-
-```
-cairo: XQuartz is required to install this formula.
-You can install with Homebrew Cask:
-  brew install Caskroom/cask/xquartz
-
-You can download from:
-  https://xquartz.macosforge.org
-pango: XQuartz is required to install this formula.
-You can install with Homebrew Cask:
-  brew install Caskroom/cask/xquartz
-
-You can download from:
-  https://xquartz.macosforge.org
-Error: Unsatisified requirements failed this build.
-```
-
-Cairo and Pango can be manually installed without X11 support, which will eliminate the need for XQuartz.
-To install without XQuartz, execute the following:
-
-```
-brew install --without-x11 cairo && brew install --without-x11 pango
-brew install ricty
-```
-
 ## I get a Python error during `brew install fontforge`
 
 If you get an error during `brew install fontforge`, like below:
