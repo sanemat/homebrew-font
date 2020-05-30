@@ -11,14 +11,15 @@ end
 
 class Ricty < Formula
   desc "Font for programming"
-  homepage "http://yusa.lab.uec.ac.jp/~yusa/ricty.html"
-  url "http://yusa.lab.uec.ac.jp/~yusa/ricty/ricty_generator-4.1.1.sh"
+  homepage "https://rictyfonts.github.io/"
+  url "https://raw.githubusercontent.com/rictyfonts/rictyfonts.github.io/master/files/ricty_generator-4.1.1.sh"
   sha256 "86bf0fed84ef806690b213798419405d7ca2a1a4bed4f6a28b87c2e2d07ad60d"
 
   option "with-powerline", "Patch for Powerline"
   option "without-fullwidth", "Disable fullwidth ambiguous characters"
   option "without-visible-space", "Disable visible zenkaku space"
   option "with-patch-in-place", "Patch Powerline glyphs directly into Ricty fonts without creating new 'for Powerline' fonts"
+  option "without-backquote-fix", "Disable backquote fix"
 
   depends_on "fontforge" => :build
 
@@ -35,8 +36,8 @@ class Ricty < Formula
   end
 
   resource "migu1mfonts" do
-    url "https://osdn.jp/frs/redir.php?m=gigenet&f=%2Fmix-mplus-ipa%2F63545%2Fmigu-1m-20150712.zip"
-    sha256 "d4c38664dd57bc5927abe8f4fbea8f06a8ece3fea49ea02354d4e03ac6d15006"
+    url "https://osdn.net/frs/redir.php?m=gigenet&f=mix-mplus-ipa%2F72511%2Fmigu-1m-20200307.zip"
+    sha256 "a4770fca22410668d2747d7898ed4d7ef5d92330162ee428a6efd5cf247d9504"
   end
 
   def install
@@ -64,6 +65,12 @@ class Ricty < Formula
       Dir["Ricty*.ttf"].each do |ttf|
         system "fontforge", "-lang=py", "-script", buildpath/"scripts/powerline-fontpatcher", *powerline_args, ttf
         mv ttf.gsub(/#{rename_from}/, rename_to), ttf if build.with? "patch-in-place"
+      end
+    end
+
+    if build.with? "backquote-fix"
+      Dir["Ricty*.ttf"].each do |ttf|
+        system "fontforge", "-lang=ff", "-c", "Open($1);Select(0u0060);SetGlyphClass(\"base\");Generate($1)", ttf
       end
     end
 
